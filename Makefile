@@ -1,8 +1,8 @@
 CC=gcc
 CFLAGS=-Wall
 
-myshell: main.o builtins.o utils.o
-	$(CC) $(CFLAGS) -o myshell main.o builtins.o utils.o
+lsh: main.o builtins.o utils.o
+	$(CC) $(CFLAGS) -o lsh main.o builtins.o utils.o
 
 main.o: main.c shell.h
 	$(CC) $(CFLAGS) -c main.c
@@ -14,4 +14,4 @@ utils.o: utils.c shell.h
 	$(CC) $(CFLAGS) -c utils.c
 
 clean:
-	rm -f *.o myshell
+	rm -f *.o lsh
