@@ -1,17 +1,18 @@
-CC=gcc
-CFLAGS=-Wall
+CC ?= cc
+CFLAGS ?= -std=c11 -Wall -Wextra -Wpedantic -g
 
-lsh: main.o builtins.o utils.o
-	$(CC) $(CFLAGS) -o lsh main.o builtins.o utils.o
+OBJS = main.o lexer.o alias.o parser.o state.o expand.o exec.o builtins.o utils.o
 
-main.o: main.c shell.h
-	$(CC) $(CFLAGS) -c main.c
+lsh: $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $(OBJS)
 
-builtins.o: builtins.c shell.h
-	$(CC) $(CFLAGS) -c builtins.c
+%.o: %.c shell.h
+	$(CC) $(CFLAGS) -c $<
 
-utils.o: utils.c shell.h
-	$(CC) $(CFLAGS) -c utils.c
+test: lsh
+	./tests/run.sh
 
 clean:
-	rm -f *.o lsh
+	rm -f $(OBJS) lsh
+
+.PHONY: clean test
